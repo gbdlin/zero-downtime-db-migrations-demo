@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "zero-downtime-db-migrations-demo"
+version = "0.1.0"
+description = "Demo"
+authors = ["Your Name <you@example.com>"]
+license = "WTFPL"
+readme = "README.md"
+packages = [{include = "zero_downtime_db_migrations_demo"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "^4.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
