@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .currency {
+            &:after {
+                content: ' zł';
+            }
+        }
+
+        .orders-list {
+            border-collapse: collapse;
+
+            td, th {
+                border-width: 1px;
+                border-style: solid;
+                border-color: #aaa #eee;
+                border-spacing: 0;
+                padding: 4px 6px;
+            }
+
+            tbody tr {
+                &:nth-child(even) {
+                    background-color: #eee;
+                }
+            }
+
+            .currency, .number {
+                text-align: right;
+            }
+        }
+    </style>
+  </head>
+  <body>
+    <a href="/">< Back</a>
+    <h1>Orders</h1>
+    <table class="orders-list">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Order Number</th>
+          <th>Net Total</th>
+          <th>Tax</th>
+          <th>Gross Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr>
+            <td><a href="/orders/{{ order.id }}/">Order {{ order.id }}</a></td>
+            <td class="number">{{ order.order_number }}</td>
+            <td class="currency">{{ order.total_net }}</td>
+            <td class="currency">{{ order.total_tax }}</td>
+            <td class="currency">{{ order.total_gross }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="/create-order/">New order</a>
+  </body>
+</html>

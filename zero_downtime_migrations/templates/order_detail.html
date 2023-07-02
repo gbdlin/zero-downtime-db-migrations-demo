@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      .currency {
+          &:after {
+              content: ' zł';
+          }
+      }
+
+      .order-details {
+          border-collapse: collapse;
+
+          td, th {
+              border: 1px solid #ccc;
+              border-spacing: 0;
+              padding: 4px 6px;
+              text-align: right;
+          }
+      }
+
+      .order-items {
+          border-collapse: collapse;
+
+          td, th {
+              border-width: 1px;
+              border-style: solid;
+              border-color: #aaa #eee;
+              border-spacing: 0;
+              padding: 4px 6px;
+          }
+
+          tbody tr {
+              &:nth-child(even) {
+                  background-color: #eee;
+              }
+
+              &:last-child td.with-total {
+                  border-color: #aaa #eee #666;
+                  border-width: 1px 1px 2px;
+              }
+          }
+
+          .currency, .number {
+              text-align: right;
+          }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="/orders/">< Back</a>
+    <table class="order-details">
+      <tr>
+        <th>ID</th>
+        <td>{{ order.id }}</td>
+      </tr>
+      <tr>
+        <th>Order Number</th>
+        <td>{{ order.order_number }}</td>
+      </tr>
+      <tr>
+        <th>Number of lines</th>
+        <td>{{ order.lines.count }}</td>
+      </tr>
+      <tr>
+        <th>Number of items</th>
+        <td>{{ order.total_quantity }}</td>
+      </tr>
+      <tr>
+        <th>Net total</th>
+        <td class="currency">{{ order.total_net }}</td>
+      </tr>
+      <tr>
+        <th>Tax</th>
+        <td class="currency">{{ order.total_tax }}</td>
+      </tr>
+      <tr>
+        <th>Gross total</th>
+        <td class="currency">{{ order.total_gross }}</td>
+      </tr>
+    </table>
+
+    <h3>Shipping address:</h3>
+    <p>{{ order.shipping_address | linebreaks }}</p>
+
+    <h3>Items:</h3>
+    <table class="order-items">
+      <thead>
+        <tr>
+          <th>Item name</th>
+          <th>Price</th>
+          <th>Tax</th>
+          <th>Quantity</th>
+          <th>Total net</th>
+          <th>Total tax</th>
+          <th>Total gross</th>
+        </tr>
+      </thead>
+      {% for line in order.lines.all %}
+        <tr>
+          <td>{{ line.item }}</td>
+          <td class="currency">{{ line.item_price }}</td>
+          <td class="currency">{{ line.item_tax }}</td>
+          <td class="with-total number">{{ line.quantity }}</td>
+          <td class="with-total currency">{{ line.total_net }}</td>
+          <td class="with-total currency">{{ line.total_tax }}</td>
+          <td class="with-total currency">{{ line.total_gross }}</td>
+        </tr>
+      {% endfor %}
+      <tfoot>
+        <tr>
+          <td class="empty"></td>
+          <td class="empty"></td>
+          <td class="empty"></td>
+          <td class="number">{{ order.total_quantity }}</td>
+          <td class="currency">{{ order.total_net }}</td>
+          <td class="currency">{{ order.total_tax }}</td>
+          <td class="currency">{{ order.total_gross }}</td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </body>
+</html>
